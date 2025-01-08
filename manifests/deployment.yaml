@@ -15,7 +15,7 @@ spec:
         app: my-app
     spec:
       containers:
-      - image: 192.168.1.183:443/test/grey:v30
+      - image: 192.168.1.183:443/test/grey:v31
         name: grey-test
         ports:
         - containerPort: 80
