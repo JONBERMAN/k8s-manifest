@@ -134,7 +134,7 @@ spec:
         app: frontend
     spec:
       containers:
-        - image: 192.168.1.183:443/test/frontend:v4
+        - image: 192.168.1.183:443/test/frontend:v5
           env:
             - name: ACCOUNTBOOK_API_ADDR
               value: backend.default
