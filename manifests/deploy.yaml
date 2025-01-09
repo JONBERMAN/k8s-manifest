@@ -34,7 +34,6 @@ spec:
           name: mysqldb
           ports:
             - containerPort: 3306
-              hostPort: 3306
               protocol: TCP
           resources: {}
 
@@ -48,8 +47,7 @@ metadata:
   name: mysqldb
 spec:
   ports:
-    - name: "3306"
-      port: 3306
+    - port: 3306
       targetPort: 3306
   selector:
     app: mysqldb
@@ -82,11 +80,10 @@ spec:
               value: root
             - name: MYSQL_PASSWORD
               value: k8spass#
-          image: sinaeng/back-cicd:2.0
+          image: 192.168.1.183:443/test/backend:v1
           name: backend
           ports:
             - containerPort: 8080
-              hostPort: 8080
               protocol: TCP
           volumeMounts:
           - name: gcp-key-volume
@@ -94,7 +91,8 @@ spec:
               #subPath: gcp-key.json
           - name: ocr-image-volume
             mountPath: /frontend/ocrImage
-
+      imagePullSecrets:
+      - name: harbor
       volumes:
       - name: gcp-key-volume
         hostPath:
@@ -113,8 +111,7 @@ metadata:
   name: backend
 spec:
   ports:
-    - name: "8080"
-      port: 8080
+    - port: 8080
       targetPort: 8080
   selector:
     app: backend
@@ -137,7 +134,7 @@ spec:
         app: frontend
     spec:
       containers:
-        - image: sinaeng/front-cicd:2.0
+        - image: 192.168.1.183:443/test/frontend:v1
           env:
             - name: ACCOUNTBOOK_API_ADDR
               value: backend.default
@@ -148,7 +145,8 @@ spec:
           volumeMounts:
           - name: ocr-image-volume
             mountPath: /frontend/ocrImage
-
+      imagePullSecrets:
+      - name: harbor
       volumes:
       - name: ocr-image-volume
         hostPath:
